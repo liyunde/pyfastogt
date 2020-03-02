@@ -10,6 +10,7 @@ import sys
 from shutil import rmtree
 
 from setuptools import find_packages, setup, Command
+from setuptools.command.install import install
 
 # Package meta-data.
 NAME = 'pyfastogt'
@@ -46,6 +47,13 @@ if not VERSION:
         exec(f.read(), about)
 else:
     about['__version__'] = VERSION
+
+
+class InstallCommand(install):
+    """Customized setuptools install command - prints a friendly greeting."""
+
+    def run(self):
+        install.run(self)
 
 
 class UploadCommand(Command):
@@ -118,5 +126,7 @@ setup(
     # $ setup.py publish support.
     cmdclass={
         'upload': UploadCommand,
+        'install': InstallCommand
     },
+    scripts=["pyfastogt/exe/request_fastogt_license_key"]
 )

@@ -1,0 +1,55 @@
+#!/usr/bin/env python3
+import argparse
+import sys
+import requests
+from datetime import datetime
+
+PROJECT_NAME = 'request_license'
+
+LICENSE_SERVER_URL = 'https://license.fastogt.com/v1/license'
+EXP_DAYS = 5
+
+
+def print_usage():
+    print("Usage:\n"
+          "[required] --email email_address (email for verification)\n"
+          "[required] --license_key hardware_license_key (license_gen output)\n"
+          "[required] --project project (Project for expire license)\n"
+          "[optional] --expired_days days (License lifetime in days)\n")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(prog=PROJECT_NAME, usage='%(prog)s [options]')
+    parser.add_argument('--email', help='email')
+    parser.add_argument('--license_key', help='hardware license key')
+    parser.add_argument('--project', help='project')
+    parser.add_argument('--expired_days', help='host (default: {0})'.format(EXP_DAYS), default=EXP_DAYS)
+
+    argv = parser.parse_args()
+
+    if not argv.email:
+        print_usage()
+        sys.exit(1)
+
+    if not argv.license_key:
+        print_usage()
+        sys.exit(1)
+
+    if not argv.project:
+        print_usage()
+        sys.exit(1)
+
+    now = datetime.now()
+    expired_time = int((now.timestamp() + argv.expired_days * 24 * 3600) * 1000)
+
+    r = requests.post(url=LICENSE_SERVER_URL,
+                      json={'email': argv.email, 'license': argv.license_key, 'project': argv.project,
+                            'exp_time': expired_time})
+
+    response = r.json()
+    if r.status_code == 200 or r.status_code == 201:
+        print(response['exp_time'])
+        sys.exit(0)
+
+    print('Request failed, status code: {0}, error{1}'.format(r.status_code, response['error']))
+    sys.exit(1)
