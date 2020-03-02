@@ -48,7 +48,7 @@ if __name__ == "__main__":
 
     response = r.json()
     if r.status_code == 200 or r.status_code == 201:
-        print(response['exp_time'])
+        print(response['exp_license'])
         sys.exit(0)
 
     print('Request failed, status code: {0}, error{1}'.format(r.status_code, response['error']))
