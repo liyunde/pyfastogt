@@ -40,7 +40,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     now = datetime.now()
-    expired_time = int(now.timestamp() + argv.expired_days * 24 * 3600) * 1000
+    expired_time = int(now.timestamp() + int(argv.expired_days) * 24 * 3600) * 1000
 
     r = requests.post(url=LICENSE_SERVER_URL,
                       json={'email': argv.email, 'license': argv.license_key, 'project': argv.project,
