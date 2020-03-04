@@ -49,13 +49,6 @@ else:
     about['__version__'] = VERSION
 
 
-class InstallCommand(install):
-    """Customized setuptools install command - prints a friendly greeting."""
-
-    def run(self):
-        install.run(self)
-
-
 class UploadCommand(Command):
     """Support setup.py upload."""
 
@@ -125,8 +118,7 @@ setup(
     ],
     # $ setup.py publish support.
     cmdclass={
-        'upload': UploadCommand,
-        'install': InstallCommand
+        'upload': UploadCommand
     },
     scripts=["pyfastogt/exe/request_fastogt_license_key"]
 )
