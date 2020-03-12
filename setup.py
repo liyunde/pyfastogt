@@ -121,5 +121,5 @@ setup(
     cmdclass={
         'upload': UploadCommand
     },
-    scripts=["pyfastogt/exe/request_fastogt_license_key"]
+    scripts=['pyfastogt/exe/request_fastogt_license_key', 'pyfastogt/exe/regenerate_machine_id']
 )
