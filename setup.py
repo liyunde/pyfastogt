@@ -25,7 +25,8 @@ VERSION = '1.0.0'
 REQUIRED = [
     'validate_email',
     'distro',
-    'certifi'
+    'certifi',
+    'requests'
 ]
 
 # The rest you shouldn't have to touch too much :)
