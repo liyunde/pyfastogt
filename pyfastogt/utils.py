@@ -7,6 +7,7 @@ import tarfile
 import json
 import ssl
 import certifi
+import contextlib
 from validate_email import validate_email
 from urllib.request import urlopen
 
@@ -176,3 +177,11 @@ def binary_search_impl(number, array, lo, hi):
 
 def binary_search_number(anum, array):  # convenience interface to binary_search()
     return binary_search_impl(anum, array, 0, len(array) - 1)
+
+
+def regenerate_dbus_machine_id():
+    with contextlib.suppress(FileNotFoundError):
+        os.remove('/var/lib/dbus/machine-id')
+    with contextlib.suppress(FileNotFoundError):
+        os.remove('/etc/machine-id')
+    subprocess.call(['dbus-uuidgen', '--ensure'])

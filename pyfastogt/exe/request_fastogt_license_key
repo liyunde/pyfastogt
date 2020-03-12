@@ -46,7 +46,11 @@ if __name__ == "__main__":
                       json={'email': argv.email, 'license': argv.license_key, 'project': argv.project,
                             'exp_time': expired_time})
 
-    response = r.json()
+    try:
+        response = r.json()
+    except:
+        response = {'error': 'Invalid response'}
+
     if r.status_code == 200 or r.status_code == 201:
         print(response['exp_license'])
         sys.exit(0)
