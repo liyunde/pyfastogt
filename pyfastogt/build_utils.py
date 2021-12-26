@@ -3,7 +3,14 @@ import stat
 import shutil
 import subprocess
 from pyfastogt import system_info, utils
+import logging
 
+logging.basicConfig(format='%(asctime)s.%(msecs)03d [%(levelname)s] [%(filename)s:%(lineno)d] %(message)s',
+                    datefmt='## %Y-%m-%d %H:%M:%S')
+
+logging.getLogger().setLevel(logging.DEBUG)
+
+logger = logging.getLogger()
 
 class BuildSystem:
     def __init__(self, name: str, cmd_line: list, cmake_generator_arg: str):
@@ -89,8 +96,12 @@ def build_command_configure(compiler_flags: list, prefix_path, executable='./con
 
 
 def generate_fastogt_git_path(repo_name) -> str:
-    return 'https://github.com/fastogt/%s' % repo_name
+    # logger.debug('https://github.com/fastogt/%s' % repo_name)
+    logger.debug('https://gitee.com/liyunde/%s' % repo_name)
+    return 'https://gitee.com/liyunde/%s' % repo_name
 
+def generate_fastogt_github_path(repo_name) -> str:
+    return generate_fastogt_git_path(repo_name)
 
 class BuildRequest(object):
     OPENSSL_SRC_ROOT = "https://www.openssl.org/source/"
@@ -252,6 +263,7 @@ class BuildRequest(object):
     # clone
     def _clone_and_build_via_cmake(self, url: str, cmake_flags: list, branch=None, remove_dot_git=True):
         pwd = os.getcwd()
+        logger.debug(f'${pwd} url=${url} flags:${cmake_flags}')
         cloned_dir = utils.git_clone(url, branch, remove_dot_git)
         os.chdir(cloned_dir)
         self._build_via_cmake(cmake_flags)

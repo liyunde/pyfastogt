@@ -19,7 +19,7 @@ URL = 'https://github.com/fastogt/pybuild_utils'
 EMAIL = 'support@fastogt.com'
 AUTHOR = 'Alexandr Topilski'
 REQUIRES_PYTHON = '>=3.0.0'
-VERSION = '1.0.0'
+VERSION = '2021.0.0'
 
 # What packages are required for this module to be executed?
 REQUIRED = [
